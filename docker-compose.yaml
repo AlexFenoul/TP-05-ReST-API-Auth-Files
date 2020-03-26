@@ -1,0 +1,39 @@
+version: "3"
+services:
+  app:
+    build: .
+    volumes:
+      - /usr/src/app/node_modules
+      - ./:/usr/src/app
+    # depends_on:
+    #   - mongo
+    #   - mysql
+    environment:
+      NODE_ENV: development
+      BASIC_AUTH: "false"
+      JWT_AUTH: "false"
+      API_KEY_AUTH: "false"
+      OIDC_AUTH: "false"
+    ports:
+      - 3000:3000
+    command: npm run dev
+
+  # Si vous souhaitez utiliser Mongo
+  # mongo:
+  #   image: mongo
+  #   expose:
+  #     - 27017
+
+  # Si vous souhaitez utiliser Mysql
+  # mysql:
+  #   image: mysql
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: example
+  #
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
