@@ -5,13 +5,12 @@ services:
     volumes:
       - /usr/src/app/node_modules
       - ./:/usr/src/app
-    # depends_on:
-    #   - mongo
-    #   - mysql
+    depends_on:
+      - mongo
     environment:
       NODE_ENV: development
       BASIC_AUTH: "false"
-      JWT_AUTH: "false"
+      JWT_AUTH: "true"
       API_KEY_AUTH: "false"
       OIDC_AUTH: "false"
     ports:
@@ -19,10 +18,16 @@ services:
     command: npm run dev
 
   # Si vous souhaitez utiliser Mongo
-  # mongo:
-  #   image: mongo
-  #   expose:
-  #     - 27017
+  mongo:
+    image: mongo
+    container_name: 'mongo-container'
+    environment:
+      MONGO_INITDB_DATABASE: auth_fenoul
+    expose:
+      - 27017
+    volumes:
+      - ./src/seeds/user-insert.js:/docker-entrypoint-initdb.d/user-insert.js:ro
+
 
   # Si vous souhaitez utiliser Mysql
   # mysql:
